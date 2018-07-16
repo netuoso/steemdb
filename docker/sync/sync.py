@@ -253,7 +253,7 @@ def update_comment(author, permlink):
         active_votes.append(vote)
     comment['active_votes'] = active_votes
 
-    for key in ['author_reputation', 'net_rshares', 'children_abs_rshares', 'abs_rshares', 'children_rshares2', 'vote_rshares']:
+    for key in ['author_reputation', 'net_rshares', 'children_abs_rshares', 'abs_rshares', 'vote_rshares']:
         comment[key] = float(comment[key])
     for key in ['total_pending_payout_value', 'pending_payout_value', 'max_accepted_payout', 'total_payout_value', 'curator_payout_value']:
         comment[key] = float(comment[key].split()[0])
