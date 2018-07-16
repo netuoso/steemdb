@@ -1,5 +1,6 @@
 from datetime import datetime
 from pistonapi.steemnoderpc import SteemNodeRPC
+from steem import Steem
 from piston.steem import Post
 from pymongo import MongoClient
 from pprint import pprint
@@ -12,7 +13,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 # rpc = SteemNodeRPC(host, "", "", ['follow_api'])
 
-rpc = SteemNodeRPC("wss://" + os.environ['steemnode'], "", "", apis=["follow", "database"])
+rpc = Steem(nodes=["https://" + os.environ['steemnode']])
+# rpc = SteemNodeRPC("wss://" + os.environ['steemnode'], "", "")
 mongo = MongoClient("mongodb://mongo")
 db = mongo.steemdb
 
@@ -71,7 +73,7 @@ def update_history():
         account['followers'] = []
         account['followers_count'] = 0
         account['followers_mvest'] = 0
-        followers_results = rpc.get_followers(user, "", "blog", 100, api="follow")
+        followers_results = rpc.get_followers(user, "", "blog", 100)
         while followers_results:
           last_account = ""
           for follower in followers_results:
@@ -81,11 +83,11 @@ def update_history():
               account['followers_count'] += 1
               if follower['follower'] in mvest_per_account.keys():
                 account['followers_mvest'] += float(mvest_per_account[follower['follower']])
-          followers_results = rpc.get_followers(user, last_account, "blog", 100, api="follow")[1:]
+          followers_results = rpc.get_followers(user, last_account, "blog", 100)[1:]
         # Get following
         account['following'] = []
         account['following_count'] = 0
-        following_results = rpc.get_following(user, -1, "blog", 100, api="follow")
+        following_results = rpc.get_following(user, -1, "blog", 100)
         while following_results:
           last_account = ""
           for following in following_results:
@@ -93,7 +95,7 @@ def update_history():
             if 'blog' in following['what'] or 'posts' in following['what']:
               account['following'].append(following['following'])
               account['following_count'] += 1
-          following_results = rpc.get_following(user, last_account, "blog", 100, api="follow")[1:]
+          following_results = rpc.get_following(user, last_account, "blog", 100)[1:]
         # Convert to Numbers
         account['proxy_witness'] = sum(float(i) for i in account['proxied_vsf_votes']) / 1000000
         for key in ['lifetime_bandwidth', 'reputation', 'to_withdraw']:

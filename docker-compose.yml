@@ -3,25 +3,25 @@ services:
   # live:
   #   build: ./docker/live
   #   environment:
-  #     steemnode: "peer.vit.tube"
+  #     steemnode: "peer.proto.vit.tube"
   #   links:
   #     - mongo
   history:
     build: ./docker/history
     environment:
-      steemnode: "peer.vit.tube"
+      steemnode: "peer.proto.vit.tube"
     links:
       - mongo
   sync:
     build: ./docker/sync
     environment:
-      steemnode: "peer.vit.tube"
+      steemnode: "peer.proto.vit.tube"
     links:
       - mongo
   witnesses:
     build: ./docker/witnesses
     environment:
-      steemnode: "peer.vit.tube"
+      steemnode: "peer.proto.vit.tube"
     links:
       - mongo
   development:

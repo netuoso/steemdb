@@ -1,5 +1,6 @@
 from datetime import datetime
 from pistonapi.steemnoderpc import SteemNodeRPC
+from steem import Steem
 from piston.steem import Post
 from pymongo import MongoClient
 from pprint import pprint
@@ -10,7 +11,8 @@ import time
 import sys
 import os
 
-rpc = SteemNodeRPC("wss://" + os.environ['steemnode'], "", "", apis=["follow", "database"])
+rpc = Steem(nodes=["https://" + os.environ['steemnode']])
+# rpc = SteemNodeRPC("wss://" + os.environ['steemnode'], "", "", apis=["follow", "database"])
 mongo = MongoClient("mongodb://mongo")
 db = mongo.steemdb
 
@@ -44,15 +46,15 @@ def check_misses():
 def update_witnesses():
     now = datetime.now().date()
 
-    pprint("SteemDB - Update Miner Queue")
-    miners = rpc.get_miner_queue()
-    db.statistics.update({
-      '_id': 'miner_queue'
-    }, {
-      'key': 'miner_queue',
-      'updated': datetime.combine(now, datetime.min.time()),
-      'value': miners
-    }, upsert=True)
+    # pprint("SteemDB - Update Miner Queue")
+    # miners = rpc.get_miner_queue()
+    # db.statistics.update({
+    #   '_id': 'miner_queue'
+    # }, {
+    #   'key': 'miner_queue',
+    #   'updated': datetime.combine(now, datetime.min.time()),
+    #   'value': miners
+    # }, upsert=True)
     scantime = datetime.now()
     users = rpc.get_witnesses_by_vote('', 100)
     pprint("SteemDB - Update Witnesses (" + str(len(users)) + " accounts)")

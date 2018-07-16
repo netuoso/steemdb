@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from pistonapi.steemnoderpc import SteemNodeRPC
+from steem import Steem
 from piston.steem import Post
 from pymongo import MongoClient
 from pprint import pprint
@@ -9,7 +10,8 @@ import time
 import sys
 import os
 
-rpc = SteemNodeRPC("wss://" + os.environ['steemnode'], "", "", apis=["follow", "database"])
+rpc = Steem(nodes=["https://" + os.environ['steemnode']])
+# rpc = SteemNodeRPC("wss://" + os.environ['steemnode'], "", "", apis=["follow", "database"])
 mongo = MongoClient("mongodb://mongo")
 db = mongo.steemdb
 
