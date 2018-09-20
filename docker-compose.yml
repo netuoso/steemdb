@@ -3,7 +3,7 @@ services:
   history:
     build: ./docker/history
     environment:
-        steemnode: "jussi.vit.tube"
+        steemnode: "jussi.proto.vit.tube"
     restart: on-failure
     volumes:
       - ./docker/history:/src
@@ -12,7 +12,7 @@ services:
   live:
     build: ./docker/live
     environment:
-        steemnode: "jussi.vit.tube"
+        steemnode: "jussi.proto.vit.tube"
     restart: on-failure
     links:
       - mongo
@@ -24,20 +24,20 @@ services:
     # external_links:
     #   - mongo:steemdb_mongo_1
     environment:
-        steemnode: "jussi.vit.tube"
+        steemnode: "jussi.proto.vit.tube"
     volumes:
       - ./docker/sync:/src
   witnesses:
     build: ./docker/witnesses
     environment:
-        steemnode: "jussi.vit.tube"
+        steemnode: "jussi.proto.vit.tube"
     links:
       - mongo
 
   development:
     build: ./docker/development
     environment:
-        steemnode: "jussi.vit.tube"
+        steemnode: "jussi.proto.vit.tube"
     links:
       - mongo
     # external_links:
@@ -61,7 +61,7 @@ services:
   # lucky:
   #   build: ./docker/lucky
   #   environment:
-  #     steemnode: "jussi.vit.com"
+  #     steemnode: "jussi.proto.vit.com"
 
 networks:
     dockernet:
